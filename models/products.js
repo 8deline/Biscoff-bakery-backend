@@ -14,7 +14,9 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Types.Decimal128,
         required: true
     },
-    image: String
+    image: String,
+
+    description: String
 })
 
 const ProductModel = mongoose.model('Product', productSchema)

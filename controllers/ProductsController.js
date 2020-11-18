@@ -8,11 +8,9 @@ const controllers = {
         // using the promise way
         ProductModel.find()
             .then(results => {
-                res.render('products/index', {
-                    pageTitle: "List of Baked Goods",
-                    bakegoods: results
+                res.json(results)
                 })
-            })
+            
 
         // callback way
         // ProductModel.find({}, (err, doc) => {

@@ -6,7 +6,7 @@ require('dotenv').config()//dotenv is for us to manipulate the env
 const express = require('express')
 const methodOverride = require('method-override')
 const mongoose = require('mongoose')
-const session = require('express-session')
+const cors = require('cors')
 const productsController = require('./controllers/ProductsController')
 const productsRatingsController = require('./controllers/ProductRatingsController')
 const usersController = require('./controllers/UsersController')
@@ -16,65 +16,64 @@ const port = 5000;
 const mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`
 mongoose.set('useFindAndModify', false)
 
-app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({
   extended: true
 }))
 //secret is your key 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  name: "app_session",
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false, maxAge: 3600000 } // 3600000ms = 3600s = 60mins, cookie expires in an hour
-}))
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   name: "app_session",
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: { secure: false, maxAge: 3600000 } // 3600000ms = 3600s = 60mins, cookie expires in an hour
+// }))
 //coookie is unique to differeent browsers.. if you logged in using chrome, then using safari you will b logged out cos they are diff cookie
 // what happens if we restart our server
 
 //app.use(someMiddleware) the purpose of app.use is to ensure that the entire app use this apply for all routes globally
 
-app.use()
+app.use(cors())
 
 // index route
-app.get('/products', productsController.listProducts)
+app.get('/api/v1/products', productsController.listProducts)
 
-// new route
-app.get('/products/new', productsController.newProduct)
+// // new route
+// app.get('/products/new', productsController.newProduct)
 
 // show route
-app.get('/products/:slug', productsController.showProduct)
+// app.get('/products/:slug', productsController.showProduct)
 
-// create route
-app.post('/products', productsController.createProduct)
+// // create route
+// app.post('/products', productsController.createProduct)
 
-// edit route
-app.get('/products/:slug/edit', productsController.showEditForm)
+// // edit route
+// app.get('/products/:slug/edit', productsController.showEditForm)
 
-// update route
-app.patch('/products/:slug', productsController.updateProduct)
+// // update route
+// app.patch('/products/:slug', productsController.updateProduct)
 
-// delete route
-app.delete('/products/:slug', productsController.deleteProduct)
+// // delete route
+// app.delete('/products/:slug', productsController.deleteProduct)
 
-// product rating new route
-app.get('/products/:slug/ratings/new', productsRatingsController.newProductRatingForm)
+// // product rating new route
+// app.get('/products/:slug/ratings/new', productsRatingsController.newProductRatingForm)
 
-// product rating create route
-app.post('/products/:slug/ratings', productsRatingsController.createProductRating)
+// // product rating create route
+// app.post('/products/:slug/ratings', productsRatingsController.createProductRating)
 
-// user registration form route
-app.get('/users/register', usersController.showRegistrationForm)
+// // user registration form route
+// app.get('/users/register', usersController.showRegistrationForm)
 
-// user registration
-app.post('/users/register', usersController.register)
+// // user registration
+// app.post('/users/register', usersController.register)
 
-// user login form route
-app.get('/users/login', usersController.showLoginForm)
+// // user login form route
+// app.get('/users/login', usersController.showLoginForm)
 
-// user login route
-app.post('/users/login', usersController.login)
+// // user login route
+// app.post('/users/login', usersController.login)
 
 /**
  * USER-ONLY ROUTES
