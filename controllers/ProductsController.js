@@ -29,33 +29,36 @@ const controllers = {
         })
             .then(result => {
                 if (! result) {
-                    res.redirect('/products')
+                    res.json({result:'none'})
                     return
                 }
 
+                res.json(result)
+                console.log(result)
+
                 // find associated ratings here
-                ProductRatingModel.find(
-                    {
-                        product_slug: result.slug
-                    },
-                    {},
-                    {
-                        sort: {
-                            created_at: -1
-                        }
-                    }
-                )
-                    .then(ratingResults => {
-                        res.render('products/show', {
-                            pageTitle: "Show Baked Good",
-                            item: result,
-                            ratings: ratingResults
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        res.redirect('/products')
-                    })
+                // ProductRatingModel.find(
+                //     {
+                //         product_slug: result.slug
+                //     },
+                //     {},
+                //     {
+                //         sort: {
+                //             created_at: -1
+                //         }
+                //     }
+                // )
+                //     .then(ratingResults => {
+                //         res.render('products/show', {
+                //             pageTitle: "Show Baked Good",
+                //             item: result,
+                //             ratings: ratingResults
+                //         })
+                //     })
+                //     .catch(err => {
+                //         console.log(err)
+                //         res.redirect('/products')
+                //     })
             })
             .catch(err => {
                 res.send(err)

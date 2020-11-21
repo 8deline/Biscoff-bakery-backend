@@ -10,6 +10,7 @@ const cors = require('cors')
 const productsController = require('./controllers/ProductsController')
 const productsRatingsController = require('./controllers/ProductRatingsController')
 const usersController = require('./controllers/UsersController')
+const adminController = require('./controllers/adminController')
 const app = express();
 const port = 5000;
 
@@ -36,14 +37,19 @@ app.use(express.urlencoded({
 
 app.use(cors())
 
+// show route
+app.get('/api/v1/products/:slug', productsController.showProduct)
+
 // index route
 app.get('/api/v1/products', productsController.listProducts)
+
+//contact route
+app.post('/api/v1/contact', adminController.contactUs)
 
 // // new route
 // app.get('/products/new', productsController.newProduct)
 
-// show route
-// app.get('/products/:slug', productsController.showProduct)
+
 
 // // create route
 // app.post('/products', productsController.createProduct)
